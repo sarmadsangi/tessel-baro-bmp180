@@ -1,14 +1,14 @@
 {
-  "name": "tessel-soil-moisture-sensor",
+  "name": "tessel-BMP180",
   "version": "0.0.1",
-  "description": "Tessel project",
+  "description": "Tessel BMP180 temperature reading module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "www.github.com/tessel/t2-cli"
+    "url": "https://github.com/sarmadsangi/tessel-BMP180"
   },
   "keywords": [
     "Tessel"
