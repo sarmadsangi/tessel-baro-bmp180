@@ -14,5 +14,6 @@
     "Tessel"
   ],
   "license": "MIT",
-  "author": "sarmadsangi, leo"
+  "author": "sarmadsangi, leo, johnnyman727",
+  "dependencies": {}
 }
