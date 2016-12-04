@@ -1,8 +1,7 @@
-// const getSoilMoistureReading = require('./index.js');
-//
-// setInterval(() => {
-//   getSoilMoistureReading((value) => {
-//     // value contains calibrated value and normal value
-//     console.log(value);
-//   });
-// }, 1200);
+const getCurrentTemperature = require('./index.js');
+
+setInterval(() => {
+  getCurrentTemperature((value) => {
+    console.log(value);
+  });
+}, 1200);
