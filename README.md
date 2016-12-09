@@ -4,11 +4,15 @@
 
 Check `test.js` for working example.
 
-```
-const getCurrentTemperature = require('./index.js');
+```JavaScript
+var tessel = require('tessel');
+const bmpDriver = require('./index.js');
+const bmp = bmpDriver.use(tessel.port.A);
 
-getCurrentTemperature((value) => {
-  // value contains calibrated value and normal value
-  console.log(value);
-});
+
+setInterval(() => {
+  bmp.getCurrentTemperature((value) => {
+    console.log(value);
+  });
+}, 1200);
 ```
