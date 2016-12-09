@@ -1,20 +1,21 @@
-var tessel = require('tessel');
-
 // Connect to device
-var port = tessel.port.A; // Use the SCL/SDA pins of Port A
 var slaveAddress = 0x77; // Specific to device
-var i2c = new port.I2C(slaveAddress); // Initialize I2C communication
 
-const getCurrentTemperature = (callback) => {
-  
-  i2c.send(new Buffer([0xF4, 0x2E]), () => {
+function BMP180 (port, options) {
+  this.port = port;
+  this.i2c = new port.I2C(slaveAddress); // Initialize I2C communication
+}
+
+BMP180.prototype.getCurrentTemperature = function(callback) {
+
+  this.i2c.send(new Buffer([0xF4, 0x2E]), () => {
 
     const tempCalculateInterval = setInterval(() => {
       // Details of I2C transfer
       var bytesToSend = [0xF4];
 
       // Send/recieve data over I2C using i2c.transfer
-      i2c.transfer(new Buffer(bytesToSend), 1, function (error, dataReceived) {
+      this.i2c.transfer(new Buffer(bytesToSend), 1, function (error, dataReceived) {
         // Print data received (buffer of hex values)
         const conversion = dataReceived[0] & 0b00010000;
 
@@ -32,7 +33,7 @@ const getCurrentTemperature = (callback) => {
     var numBytesToRead = 2 // Read back this number of bytes
 
     // Send/recieve data over I2C using i2c.transfer
-    i2c.transfer(new Buffer(bytesToSend), numBytesToRead, function (error, dataReceived) {
+    this.i2c.transfer(new Buffer(bytesToSend), numBytesToRead, function (error, dataReceived) {
       // Print data received (buffer of hex values)
       const UT = dataReceived.readUInt16BE(0)
       readRemainingValues(UT)
@@ -44,7 +45,7 @@ const getCurrentTemperature = (callback) => {
     var numBytesToRead = 22; // Read back this number of bytes
 
     // Send/recieve data over I2C using i2c.transfer
-    i2c.transfer(new Buffer(bytesToSend), numBytesToRead, function (error, dataReceived) {
+    this.i2c.transfer(new Buffer(bytesToSend), numBytesToRead, function (error, dataReceived) {
       // Print data received (buffer of hex values)
 
 
@@ -59,10 +60,12 @@ const getCurrentTemperature = (callback) => {
       const Temp = (B5 + 8) / Math.pow(2, 4)
 
       const TempInCelsius = Temp / 10;
-      
+
       callback(TempInCelsius)
     });
   }
 }
 
- module.exports = getCurrentTemperature;
+module.exports.use = function(port, options) {
+  return new BMP180(port, options);
+}
