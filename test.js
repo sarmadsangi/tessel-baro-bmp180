@@ -1,7 +1,10 @@
-const getCurrentTemperature = require('./index.js');
+var tessel = require('tessel');
+const bmpDriver = require('./index.js');
+const bmp = bmpDriver.use(tessel.port.A);
+
 
 setInterval(() => {
-  getCurrentTemperature((value) => {
+  bmp.getCurrentTemperature((value) => {
     console.log(value);
   });
 }, 1200);
